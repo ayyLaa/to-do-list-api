@@ -1,7 +1,10 @@
 from fastapi import APIRouter
+from rich import status
 from starlette.responses import JSONResponse
 
 import storage
+from schemas import TaskCreate
+import services
 
 router = APIRouter()
 
@@ -35,3 +38,12 @@ async def task(id: int):
         )
 
     return task
+
+@router.post("/tasks", status_code=status.HTTP_201_CREATED)
+async def create_task(task: TaskCreate):
+    if not task.title.strip():
+        return JSONResponse(
+            status_code=400,
+            content={"error": "Task title cannot be empty"}
+        )
+    return services.create_new_task(task)

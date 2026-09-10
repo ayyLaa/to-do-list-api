@@ -16,6 +16,13 @@ def get_item(id: int):
 def get_all_items():
     return list(db.values())
 
+def get_next_id():
+    if not db:
+        return 1
+    return max(db.keys()) + 1
+
+
+
 # Test data
 
 save_item(1, "Buy milk", True)
