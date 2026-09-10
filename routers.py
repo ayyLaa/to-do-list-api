@@ -1,5 +1,7 @@
 from fastapi import APIRouter
-from pygments.lexer import default
+from starlette.responses import JSONResponse
+
+import storage
 
 router = APIRouter()
 
@@ -18,3 +20,18 @@ async def root():
 @router.get("/health")
 async def health():
     return {"status": "ok"}
+
+@router.get("/tasks")
+async def tasks():
+    return storage.get_all_items()
+
+@router.get("/tasks/{id}")
+async def task(id: int):
+    task = storage.get_item(id)
+    if task is None:
+        return JSONResponse(
+            status_code=404,
+            content={"error": f"Task {id} not found"}
+        )
+
+    return task
