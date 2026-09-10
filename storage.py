@@ -21,9 +21,18 @@ def get_next_id():
         return 1
     return max(db.keys()) + 1
 
+def update_item(id: int, title: str = None, done: bool = None):
+    if title is not None:
+        db[id]['title'] = title
+    if done is not None:
+        db[id]['done'] = done
+    return db[id]
+
+def delete_item(id: int):
+    if id in db:
+        del db[id]
 
 
 # Test data
-
 save_item(1, "Buy milk", True)
 save_item(2, "Do A1", False)
