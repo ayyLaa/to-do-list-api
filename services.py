@@ -1,5 +1,6 @@
 import storage
 from schemas import TaskCreate, TaskUpdate
+from typing import Optional
 
 
 
@@ -18,3 +19,33 @@ def update_task(id: int, update_data: TaskUpdate):
 
 def delete_task(id: int):
     storage.delete_item(id)
+
+
+def get_tasks_filtered(done: Optional[bool] = None, search: Optional[str] = None):
+
+    tasks = storage.get_all_items()
+
+
+    if done is not None:
+        tasks = [t for t in tasks if t['done'] == done]
+
+
+    if search is not None:
+        tasks = [t for t in tasks if search.lower() in t['title'].lower()]
+
+    return tasks
+
+
+def calculate_stats():
+    tasks = storage.get_all_items()
+
+    total = len(tasks)
+
+    done_count = sum(1 for t in tasks if t['done'])
+    open_count = total - done_count
+
+    return {
+        "total": total,
+        "done": done_count,
+        "open": open_count
+    }

@@ -1,13 +1,12 @@
 from os.path import exists
 
-from fastapi import APIRouter
-from rich import status
-from starlette.responses import JSONResponse, Response
+from fastapi import APIRouter, status, Response
+from starlette.responses import JSONResponse
 
 import storage
 from schemas import TaskCreate, TaskUpdate
 import services
-
+from typing import Optional
 router = APIRouter()
 
 
@@ -30,11 +29,11 @@ async def health():
     return {"status": "ok"}
 
 @router.get("/tasks")
-async def tasks():
+async def tasks(done: Optional[bool] = None, search: Optional[str] = None):
     """
-        Retrieves a list of all existing tasks from the database.
+        Retrieves a list of tasks. Can be filtered by 'done' status or 'search' keyword.
     """
-    return storage.get_all_items()
+    return services.get_tasks_filtered(done, search)
 
 @router.get("/tasks/{id}")
 async def task(id: int):
@@ -104,3 +103,10 @@ async def delete_task(id: int):
 
     services.delete_task(id)
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+@router.get("/stats")
+async def get_stats():
+    """
+        Returns statistics about current tasks (total, done, open).
+    """
+    return services.calculate_stats()
