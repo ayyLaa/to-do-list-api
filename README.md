@@ -1,4 +1,4 @@
-# To-Do List API - Flyrank Internship (Assignment 1)
+# To-Do List API - FlyRank Internship (Assignment 1)
 
 **Track:** Backend AI Engineering Track
 
@@ -11,7 +11,7 @@ The project architecture follows the **Separation of Concerns** principle, divid
 * `schemas.py` (Pydantic DTOs for request validation)
 * `storage.py` (Data storage and manipulation)
 
-### 🧪 The Mortality Experiment (In-Memory Storage)
+### The Mortality Experiment (In-Memory Storage)
 Currently, this API uses an **in-memory Python dictionary** to store tasks. This means that data only lives as long as the server process is running. If you restart the server, all created tasks are instantly wiped out, and the database resets to its initial seed state. 
 *Observation:* This "mortality" of data highlights the absolute necessity of integrating a persistent database (like PostgreSQL or MySQL) for production applications.
 
@@ -28,7 +28,7 @@ fastapi dev main.py
 
 ---
 
-## 🗺️ Endpoints Table
+## Endpoints Table
 
 | Method | Endpoint | Description |
 | :--- | :--- | :--- |
@@ -64,7 +64,7 @@ content-type: application/json
 
 ---
 
-## 📸 Interactive Documentation (Swagger UI)
+## Interactive Documentation (Swagger UI)
 
 FastAPI automatically generates interactive API documentation. You can test all endpoints directly from your browser by navigating to `/docs`.
 
